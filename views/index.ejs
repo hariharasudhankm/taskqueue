@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/jquery-1.10.2.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/mustache.js"></script>
+    <script src="/javascripts/queue.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css' />
+  </head>
+  <body>
+  	<div class="modal fade" id="modal-create-task">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Create task</h4>
+            </div>
+            <form class="form" action="/quyeue/push" method="POST" id="create-task">
+            <div class="modal-body">
+            	<div class="form-group">
+            		<label>Task Name</label>
+              <input type="text"  class="form-control" name="name" required placeholder="Task name"><br>
+              </div>
+              	<div class="form-group">
+              		<label>Time to be taken for task</label>
+              <input type="number"  class="form-control" name="time" value="10" placeholder="Time required for the task">
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="create">
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+  	<div class="container">
+  		<div class="jumbotron">
+
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %> . A simple task queue management using node and express</p>
+</div>
+<div class="row">
+	<div class="col-md-3">
+		<button class="btn btn-primary" data-toggle="modal" data-target='#modal-create-task'>Create Task</button>
+	
+		<button class="btn btn-primary">Fetch Task</button>
+	</div>
+
+</div>
+<hr>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Active Tasks</div>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<td>Task Name</td>
+			<td>Time Required</td>
+			<td>Time Spent</td>
+			<td>Time Remaining</td>
+			<td>Progress</td>
+		</tr>
+
+	</thead>
+	<tbody>
+		<tr>
+			<td>Test</td>
+			<td>10s</td>
+			<td>3s</td>
+			<td>7s</td>
+			<td><div class="progress progress-striped active">
+			  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+			    <span class="sr-only">45% Complete</span>
+			  </div>
+			</div>
+			</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<br>
+	<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Queued Tasks</div>
+<table class="table table-striped" id="queue-table">
+	<thead>
+		<tr>
+      <td>Task ID</td>
+			<td>Task Name</td>
+			<td>Time Required</td>
+		</tr>
+
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+<div>
+
+
+
+    
+  </body>
+</html>
