@@ -45,7 +45,7 @@ Task.done = function(id,cb){
 
 
 Task.getTimeConsumed = function(id,cb){
-	redis.hget("job",data.id,function(err,data){
+	redis.hget("job",id,function(err,data){
 		cb(err,data);
 	})
 }

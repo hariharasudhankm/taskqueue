@@ -61,8 +61,13 @@ app.post('/queue/push',function(req,res){
 
 app.get("/queue/fetch",function(req,res){
 	Task.fetch(function(err,data){
-		res.json(JSON.stringify(data))
+		io.sockets.emit("task-fetched",JSON.stringify(data));
+		res.json(data)
 	})
+})
+
+app.get("/queue/progress/:id",function(req,res){
+
 })
 
 var server = http.createServer(app);
@@ -75,6 +80,19 @@ io.sockets.on('connection', function (socket) {
 		})
 		
 	})
+
+	socket.on("task-live",function(task){
+		Task.setTimeConsumed(task.id,1);
+		io.sockets.emit("task-update",JSON.stringify(task))
+	})
+
+	socket.on("task-done",function(task){
+		Task.done(task.id,function(err,data){
+			io.sockets.emit("task-done",{id:task.id})		
+		})	
+	})
+
+
 });
 
 server.listen(app.get('port'), function(){
