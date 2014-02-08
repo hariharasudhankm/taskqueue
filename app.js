@@ -41,24 +41,28 @@ app.get('/users', user.list);
 
 
 app.post('/queue/push',function(req,res){
-	console.log(req.body);
-	var tasks = req.body;
+	console.log("request",req.body);
+
+	var tasks = req.body.tasks;
+
 
 	if(tasks.constructor == Array){
 		for(i=0;i<tasks.length;i++){
 			Task.push(tasks[i],function(err,data){
-				io.sockets.emit("new-task",data);
+				io.sockets.emit("new-task",JSON.stringify(data));
 			});
 		}
 
-	}else if(tasks.constructor == Object){
-		Task.push(tasks,function(err,data){
-			io.sockets.emit("new-task",JSON.stringify(data));
-		});
 	}else{
-		res.serverError({err:"Not a valid reuest"})
+		res.send(404,{err:JSON.stringify(tasks)+" is Not a valid reuest"})
 	}
 	res.json({success:1})
+})
+
+app.get("/queue/fetch",function(req,res){
+	Task.fetch(function(err,data){
+		res.json(JSON.stringify(data))
+	})
 })
 
 var server = http.createServer(app);

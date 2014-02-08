@@ -18,7 +18,7 @@ Queue.all = function(cb){
 }
 
 Queue.deque = function(cb){
-	redis.lpop('JobQueue',function(err,data){
-		cb(err,data);
-	})
+	redis.lpop('JobQueue',cb);
 }
+
+	
