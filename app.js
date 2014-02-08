@@ -61,6 +61,7 @@ app.post('/queue/push',function(req,res){
 
 app.get("/queue/fetch",function(req,res){
 	Task.fetch(function(err,data){
+		if(err) return res.send(400,"bad Request")
 		io.sockets.emit("task-fetched",JSON.stringify(data));
 		res.json(data)
 	})

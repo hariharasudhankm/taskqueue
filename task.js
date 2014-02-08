@@ -18,6 +18,7 @@ Task.getAllTask = function(cb){
 
 Task.fetch = function(cb){
 	Queue.deque(function(err,data){
+		if(data==null) return cb(1,null);
 		redis.hmset("job",data.id,data.time,"detail:"+data.id,data,function(err,data1){
 			cb(err,data);	
 		})
